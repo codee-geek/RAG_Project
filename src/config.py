@@ -1,0 +1,12 @@
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 100
+
+EMBEDDING_MODEL = "text-embedding-3-large"
+VECTOR_DB_PATH = "vectorstore"
+LLM_MODEL = "gpt-4o"
+TOP_K = 5       
+TEMPERATURE = 0.7
+SOURCE_DIRECTORY = "data"
+PERSIST_DIRECTORY = "vectorstore"
+MAX_INPUT_SIZE = 4096
+MAX_TOTAL_TOKENS = 8192
