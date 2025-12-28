@@ -1,7 +1,8 @@
-from ingestion.loader import load_documents
-from ingestion.cleaner import clean_documents
-from ingestion.chunker import chunk_documents
-from ingestion.index import create_vectorstore
+from src.ingestion.loader import load_documents
+from src.ingestion.cleaner import clean_documents
+from src.ingestion.chunker import chunk_documents
+from src.ingestion.index import create_vectorstore
+
 
 
 def run_ingestion(path: str):
@@ -12,4 +13,5 @@ def run_ingestion(path: str):
 
 
 if __name__ == "__main__":
-    run_ingestion("data/sample.pdf")
+    run_ingestion("data/iso27001.pdf")
+    
