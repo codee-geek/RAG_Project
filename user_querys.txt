@@ -1,0 +1,128 @@
+## 1️⃣ Basic factual grounding (sanity checks)
+
+If these fail, your RAG is broken at a fundamental level.
+
+1. What is the primary objective of ISO/IEC 27001:2022?
+2. Which edition of ISO/IEC 27001 is this document?
+3. Is ISO/IEC 27001 applicable only to large enterprises?
+4. What are the three core information security principles preserved by an ISMS?
+5. Which clauses are mandatory for claiming conformity?
+
+---
+
+## 2️⃣ Clause-specific retrieval (tests chunk accuracy)
+
+These test whether the model retrieves the *right clause*, not just vibes.
+
+6. What does Clause 4.1 require an organization to determine?
+7. What are “interested parties” according to Clause 4.2?
+8. What must be considered when defining the ISMS scope under Clause 4.3?
+9. What documented information is required for the ISMS scope?
+10. What responsibilities must top management assign under Clause 5.3?
+
+---
+
+## 3️⃣ Leadership & policy (tests role separation)
+
+LLMs often blur roles. These questions catch that.
+
+11. List at least four responsibilities of top management under Clause 5.1.
+12. What commitments must the information security policy include?
+13. Does ISO/IEC 27001 require the security policy to be public?
+14. Who is responsible for reporting ISMS performance to top management?
+
+---
+
+## 4️⃣ Risk assessment & treatment (high-value RAG test)
+
+This is where hallucination usually starts.
+
+15. What criteria must be defined before conducting a risk assessment?
+16. How does ISO/IEC 27001 define risk analysis vs risk evaluation?
+17. What is a “risk owner”?
+18. What documented evidence is required for risk assessments?
+19. When comparing controls, why is Annex A referenced?
+20. Is Annex A exhaustive? Explain.
+21. What is a Statement of Applicability (SoA)?
+22. What justifications must be included in the SoA?
+
+---
+
+## 5️⃣ Objectives & planning (tests temporal reasoning)
+
+23. What characteristics must information security objectives have?
+24. Are objectives required to be measurable?
+25. What inputs must be considered while defining objectives?
+26. What planning details must be documented to achieve objectives?
+
+---
+
+## 6️⃣ Support & documentation (tests procedural grounding)
+
+27. What competence requirements are specified under Clause 7.2?
+28. What evidence must be retained to prove competence?
+29. What must employees be aware of under Clause 7.3?
+30. What are the three controls applied to documented information?
+31. How does ISO define control of documented information?
+
+---
+
+## 7️⃣ Operations & change control (tests lifecycle understanding)
+
+32. When must information security risk assessments be repeated?
+33. What controls apply to externally provided services?
+34. What documented outputs are required after risk treatment?
+35. How should unintended changes be handled?
+
+---
+
+## 8️⃣ Performance evaluation (tests multi-input reasoning)
+
+36. What must be monitored and measured in an ISMS?
+37. What makes monitoring results “valid” according to ISO?
+38. What inputs are required for management review?
+39. What outputs must result from management review?
+
+---
+
+## 9️⃣ Nonconformity & improvement (tests corrective logic)
+
+40. What actions are mandatory when a nonconformity occurs?
+41. Is root-cause analysis explicitly required?
+42. What evidence must be retained after corrective action?
+43. How does ISO define continual improvement?
+
+---
+
+## 🔟 Annex A control navigation (RAG precision killer)
+
+These expose poor metadata tagging.
+
+44. Which control addresses acceptable use of assets?
+45. What control governs supplier information security agreements?
+46. Which control covers cloud service usage?
+47. What Annex A control relates to secure coding?
+48. Where is business continuity covered?
+49. Which controls address incident response and learning?
+
+---
+
+## 1️⃣1️⃣ Cross-section reasoning (advanced RAG tests)
+
+50. How do Clauses 6.1.2 and 8.2 differ in purpose?
+51. How is ISO/IEC 27001 aligned with ISO 31000?
+52. Why is Annex SL mentioned in the introduction?
+53. Can an organization exclude Annex A controls and still be compliant?
+54. How does ISO/IEC 27001 integrate with other management system standards?
+
+---
+
+## 1️⃣2️⃣ Negative & trap questions (hallucination detectors)
+
+55. Does ISO/IEC 27001 mandate specific technical tools?
+56. Does the standard prescribe encryption algorithms?
+57. Are penetration tests explicitly required?
+58. Is certification mandatory after implementation?
+59. Does ISO/IEC 27001 define exact KPIs?
+
+Correct answer to many of these is **NO** — your RAG must say that explicitly.

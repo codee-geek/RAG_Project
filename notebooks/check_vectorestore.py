@@ -1,7 +1,7 @@
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 
-from config import EMBEDDING_MODEL, VECTOR_DB_PATH 
+from src.config import EMBEDDING_MODEL, VECTOR_DB_PATH 
 
 vectorstore = FAISS.load_local(
     VECTOR_DB_PATH,
