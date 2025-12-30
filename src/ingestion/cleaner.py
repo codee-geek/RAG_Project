@@ -1,13 +1,10 @@
 import re
-
-
 def clean_documents(docs):
     cleaned = []
     for doc in docs:
         text = doc.page_content or ""
         # Normalize line endings
         text = text.replace('\r\n', '\n').replace('\r', '\n')
-
         cleaned_lines = []
         for line in text.split('\n'):
             s = line.strip()
@@ -30,7 +27,6 @@ def clean_documents(docs):
             # Collapse repeated punctuation like '!!!' -> '!'
             s = re.sub(r'([^\w\s])\1{2,}', r"\1", s)
             cleaned_lines.append(s)
-
         new_text = ' '.join(cleaned_lines)
         # Normalize whitespace
         new_text = re.sub(r'\s+', ' ', new_text).strip()
