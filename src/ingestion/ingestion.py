@@ -16,6 +16,12 @@ def run_ingestion(path: str):
     #     print(chunk.metadata)
     # print(f"Total chunks: {len(chunks)}")
     
+    
 if __name__ == "__main__":
-    run_ingestion("data/iso27001.pdf")
+    try:
+        run_ingestion("data/iso27001.pdf")
+        print("Ingestion completed successfully.")
+    except Exception as e:
+        print("Ingestion failed:", e)
+        raise
     

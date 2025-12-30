@@ -9,3 +9,7 @@ src/
 │
 ├── config.py
 ├── ingest.py
+
+
+to run query file: python3 -m src.Query.user_input  
+to run injestion file: 
