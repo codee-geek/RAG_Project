@@ -15,19 +15,22 @@ vectorstore = FAISS.load_local(
     allow_dangerous_deserialization=True
 )
 
-def run_query(user_query: str, k: int = 10):
+def run_query(user_query: str, k: int = 30):
     results = vectorstore.similarity_search_with_score(user_query, k=k)
 
-    # Separate docs from similarity scores
-    docs = [doc for doc, _ in results]
+    docs = []
+    for doc, score in results:
+        doc.metadata["faiss_score"] = float(score)
+        docs.append(doc)
 
     reranked_docs = cross_encoder_rerank(
         query=user_query,
         docs=docs,
-        top_n=5
+        top_n=10
     )
 
     return reranked_docs
+
 
 
 if __name__ == "__main__":
