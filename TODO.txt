@@ -1,0 +1,12 @@
+add answer confidence scoring
+evaluators 
+parent child 
+we should use llama.cpp uses transformer but no transformer liberary which is causing our model to be slow 
+
+
+
+
+
+
+done 
+llm 

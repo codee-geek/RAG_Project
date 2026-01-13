@@ -1,0 +1,149 @@
+RAG_PROJECT
+
+A production-focused Retrieval-Augmented Generation (RAG) pipeline designed with hybrid retrieval, 
+re ranking, and semantic-aware chunking. The system is built to prioritize accuracy, latency control,
+and clean output discipline rather than experimentation or debugging convenience.
+
+--------------------------------------------------
+PROJECT STRUCTURE
+--------------------------------------------------
+
+src/
+├── ingestion/
+│   ├── loader.py        # Loads raw documents
+│   ├── cleaner.py       # Text normalization and cleaning
+│   ├── chunker.py       # Semantic-aware chunking and merging
+│   ├── index.py         # Embedding creation and FAISS indexing
+│
+├── Query/
+│   ├── user_input.py   # Query pipeline: retrieve → rerank → generate
+│
+├── config.py           # Centralized configuration
+├── ingest.py           # Ingestion entry point
+│
+├── vectorstore/         # FAISS index and metadata storage
+
+--------------------------------------------------
+HOW TO RUN
+--------------------------------------------------
+
+Ingestion (build vector store):
+python3 -m src.ingestion.ingestion
+
+Querying:
+python3 -m src.Query.user_input
+
+sample query: What shall organization do when nonconformity occurs? 
+
+--------------------------------------------------
+DEPENDENCY MANAGEMENT
+--------------------------------------------------
+
+Currently, the project includes:
+- requirements.txt
+- pyproject.toml (UV-compatible)
+
+This is a temporary setup for ease of development.
+
+Final state (after stabilization):
+- requirements.txt will be removed
+- All dependencies will be declared only in pyproject.toml
+- UV will be the single dependency manager
+
+--------------------------------------------------
+RETRIEVAL PIPELINE
+--------------------------------------------------
+
+STAGE 1: HYBRID RETRIEVAL
+- Retrieve 20–50 candidate chunks
+- Combination of:
+  - Vector search (semantic similarity)
+  - BM25 (keyword-based retrieval)
+
+Purpose:
+- Reduce semantic-only blind spots
+- Capture structurally or keyword-important sections
+
+--------------------------------------------------
+STAGE 2: RERANKING
+--------------------------------------------------
+
+Candidates are passed to a reranker (e.g., BGE Reranker or Cohere Rerank).
+
+Latency budget (strict):
+- Cross-encoder: 150–400 ms for 20–50 documents
+- Hybrid reranker: 80–250 ms
+- Bi-encoder rerank: 5–20 ms
+
+If reranking alone exceeds 500 ms, the system is considered too slow for real-time usage.
+
+--------------------------------------------------
+FINAL SCORING LOGIC
+--------------------------------------------------
+
+final_score =
+    0.7 * rerank_score
+  + 0.3 * (1 - faiss_score)
+
+Enforced rules:
+- Chunks with rerank_score < 0 are discarded
+- Only nearby chunks are allowed (maximum score difference ≤ 1)
+- Final output is limited to 1–3 chunks maximum
+
+--------------------------------------------------
+FINAL GENERATION
+--------------------------------------------------
+
+- Only top 1–3 chunks are passed to the LLM
+- LLM generates a single, coherent answer
+- Raw chunks are never exposed to the end user
+
+This is intentional and non-negotiable.
+
+--------------------------------------------------
+CHUNKING STRATEGY (CRITICAL DESIGN)
+--------------------------------------------------
+
+Problem:
+Default unstructured chunking splits text abruptly, even when content belongs to the same semantic section. This leads to fragmented embeddings, context loss, and weaker reranking.
+
+Solution: Semantic-Aware Buffered Chunking
+
+Pipeline Flow:
+Unstructured.partition()          ← semantic structure inferred here
+  → LangChain Documents
+    → Cleaning / normalization
+      → Chunking (recursive + semantic merging)
+        → Embeddings
+          → FAISS
+
+Chunking rules:
+- Merge text within the same semantic section
+- Maintain a rolling buffer
+- Flush the buffer only when:
+  1. The semantic section changes, or
+  2. The buffer reaches a minimum/maximum character threshold to cap size
+
+This preserves meaning without producing oversized or context-less chunks.
+
+--------------------------------------------------
+OUTPUT DISCIPLINE
+--------------------------------------------------
+
+- No debug prints in production
+- No raw chunk dumps
+- No “top-N chunk” exposure
+- User sees only the final synthesized answer
+
+Anything else is debugging behavior, not product behavior.
+
+--------------------------------------------------
+SYSTEM GOALS
+--------------------------------------------------
+
+- Accuracy over verbosity
+- Latency-aware reranking
+- Semantic integrity during chunking
+- Deterministic, controlled output
+
+This pipeline is designed for real use, not demos or experimentation.
