@@ -27,7 +27,7 @@ Answer format:
 # =========================
 # CONTEXT BUILDER
 # =========================
-def build_context(docs, max_chars: int = 6000) -> str:
+def build_context(docs, max_chars: int = 3000) -> str:
     """
     Build grounded context from retrieved documents.
     Preserves section boundaries.
@@ -53,10 +53,8 @@ def build_prompt(query: str, context: str) -> str:
     return f"""<|system|>
 {SYSTEM_PROMPT}
 <|user|>
-Context:
 {context}
 
-Question:
 {query}
 <|assistant|>
 """

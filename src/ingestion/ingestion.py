@@ -16,7 +16,7 @@ def run_ingestion(file_path: str):
 if __name__ == "__main__":
     try:
         run_ingestion(
-            "/Users/atharvawakade/Documents/VS_Projects/RAG_ATHARVA/data/iso27001.pdf"
+            "data/lunamatic_fall.txt"
         )
         print("Ingestion completed successfully.")
     except Exception as e:
