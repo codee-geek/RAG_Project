@@ -64,14 +64,14 @@ def load_documents_unstructured(file_path: str) -> List[Document]:
                         },
                     )
                 )
-            
+                
             # Start new section with clause number if available
             current_section = f"{current_clause} {text}".strip() if current_clause else text
             current_clause = None
             buffer = []
             current_pages = set()
             continue
-
+        
         # Regular content
         buffer.append(text)
 

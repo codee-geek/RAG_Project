@@ -6,7 +6,5 @@ we should use llama.cpp uses transformer but no transformer liberary which is ca
 
 
 
-
-
 done 
 llm 

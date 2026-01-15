@@ -77,18 +77,7 @@ Latency budget (strict):
 
 If reranking alone exceeds 500 ms, the system is considered too slow for real-time usage.
 
---------------------------------------------------
-FINAL SCORING LOGIC
---------------------------------------------------
-
-final_score =
-    0.7 * rerank_score
-  + 0.3 * (1 - faiss_score)
-
-Enforced rules:
-- Chunks with rerank_score < 0 are discarded
-- Only nearby chunks are allowed (maximum score difference ≤ 1)
-- Final output is limited to 1–3 chunks maximum
+------------------------------------------------
 
 --------------------------------------------------
 FINAL GENERATION
