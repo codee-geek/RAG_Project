@@ -1,7 +1,7 @@
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
-from src.config import VECTOR_DB_PATH, EMBEDDING_MODEL
-from src.Query.rerankers import cross_encoder_rerank
+from core.config import VECTOR_DB_PATH, EMBEDDING_MODEL
+from query.rerankers import cross_encoder_rerank
 
 # Load ONCE
 embeddings = HuggingFaceEmbeddings(

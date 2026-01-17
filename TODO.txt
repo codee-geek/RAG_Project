@@ -1,10 +1,45 @@
 add answer confidence scoring
 evaluators 
 parent child 
-we should use llama.cpp uses transformer but no transformer liberary which is causing our model to be slow 
+user multiple doc 
+msanage metadata - to show proper sources 
+
 
 
 
 
 done 
 llm 
+ use llama.cpp uses transformer but no transformer liberary which is causing our model to be slow 
+streamlit
+general loader - iso loader 
+
+
+bugs:
+
+
+This is fragile because:
+unstructured classification varies wildly across:
+PDFs
+scanned PDFs
+DOCX
+TXt
+Stories often:
+have no headings
+or only one title
+or headings are misclassified
+Result:
+Entire documents may collapse into:
+PREFACE or one massive section That’s bad for retrieval.
+
+3️⃣ Minimum section size gate (this is a real problem)
+if buffer and len(" ".join(buffer)) > 200:
+This silently discards content.
+For:
+short stories
+FAQs
+notes
+slides
+structured bullets
+Your RAG system will lose data without warning.
+That is unacceptable for a general upload system.

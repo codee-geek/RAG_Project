@@ -1,5 +1,5 @@
-from src.llm.phi3 import generate_phi3, load_llm
-from src.Query.user_input import run_query
+from llm.phi3 import generate_phi3, load_llm
+from query.retriever import run_query
 
 # =========================
 # CONTEXT BUILDER
@@ -71,31 +71,34 @@ def answer_query(query: str):
     # 4. Generate answer
     answer = generate_phi3(prompt)
 
-    return answer, docs
+    return {
+        "answer": answer,
+        "chunks": docs
+    }
 
 
 # =========================
 # CLI ENTRY
 # =========================
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    # LOAD MODEL ONCE
-    load_llm()
-    print("Model loaded. Ready for queries.")
+#     # LOAD MODEL ONCE
+#     load_llm()
+#     print("Model loaded. Ready for queries.")
 
-    while True:
-        user_query = input("\nEnter your query (or 'exit'): ")
-        if user_query.lower() == "exit":
-            break
+#     while True:
+#         user_query = input("\nEnter your query (or 'exit'): ")
+#         if user_query.lower() == "exit":
+#             break
 
-        answer, sources = answer_query(user_query)
+#         answer, sources = answer_query(user_query)
 
-        print("\nANSWER:\n")
-        print(answer)
+#         print("\nANSWER:\n")
+#         print(answer)
 
-        print("\nSOURCES:\n")
-        for doc in sources:
-            print(
-                f"- {doc.metadata.get('section_title')}"
-                f" (pages {doc.metadata.get('pages')})"
-            )
+#         print("\nSOURCES:\n")
+#         for doc in sources:
+#             print(
+#                 f"- {doc.metadata.get('section_title')}"
+#                 f" (pages {doc.metadata.get('pages')})"
+#             )

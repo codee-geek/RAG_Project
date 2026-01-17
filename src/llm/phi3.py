@@ -1,5 +1,5 @@
 from llama_cpp import Llama
-from src.Query.user_input import run_query
+from query.retriever import run_query
 
 # =========================
 # LOAD MODEL (ONCE)

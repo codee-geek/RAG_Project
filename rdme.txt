@@ -4,34 +4,73 @@ A production-focused Retrieval-Augmented Generation (RAG) pipeline designed with
 re ranking, and semantic-aware chunking. The system is built to prioritize accuracy, latency control,
 and clean output discipline rather than experimentation or debugging convenience.
 
+==================================================
+🔧 Repository Setup (Required)
+
+This project uses git submodules (e.g. llama.cpp). You must initialize them after cloning.
+
+Option 1: Clone with submodules (recommended)
+git clone --recurse-submodules <https://github.com/codee-geek/RAG_Project.git>
+
+Option 2: Initialize submodules after cloning
+git clone <yhttps://github.com/codee-geek/RAG_Project.git>
+cd <RAG_Project>
+git submodule update --init --recursive
+
+
+⚠️ Important: If you skip this step, the llama.cpp/ directory will be empty and the project will not work.
+
 --------------------------------------------------
 PROJECT STRUCTURE
 --------------------------------------------------
 
-src/
-├── ingestion/
-│   ├── loader.py        # Loads raw documents
-│   ├── cleaner.py       # Text normalization and cleaning
-│   ├── chunker.py       # Semantic-aware chunking and merging
-│   ├── index.py         # Embedding creation and FAISS indexing
+RAG_ATHARVA/
+├── core/
+│   ├── ingestion/
+│   │   ├── loader.py
+│   │   ├── cleaner.py
+│   │   ├── chunker.py
+│   │   ├── index.py
+│   │
+│   ├── query/
+│   │   └── pipeline.py      # renamed from Query/user_input.py
+│   │
+│   ├── llm.py
+│   ├── embeddings.py
+│   ├── vector_store.py
+│   ├── retriever.py
+│   ├── rag.py
+│   ├── config.py
+│   └── __init__.py
 │
-├── Query/
-│   ├── user_input.py   # Query pipeline: retrieve → rerank → generate
+├── ui/
+│   └── streamlit_app.py
 │
-├── config.py           # Centralized configuration
-├── ingest.py           # Ingestion entry point
+├── api/
+│   └── app.py
 │
-├── vectorstore/         # FAISS index and metadata storage
+├── main.py               # CLI entry
+├── ingest.py             # Calls core.ingestion
+├── vectorstore/          # persisted FAISS data (NOT code)
+├── setup.sh
+├── requirements.txt
+├── llama.cpp/
+└── README.md
+
 
 --------------------------------------------------
 HOW TO RUN
 --------------------------------------------------
+
+venv: source .venv/bin/activate
 
 Ingestion (build vector store):
 python3 -m src.ingestion.ingestion
 
 Querying:
 python3 -m src.Query.user_input
+
+streamlit app: streamlit run ui/streamlit_app.py
 
 sample query: What shall organization do when nonconformity occurs? 
 

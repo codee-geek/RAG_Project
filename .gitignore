@@ -18,3 +18,13 @@ __pycache__/
 .ipynb_checkpoints/
 data/
 models/
+
+
+# llama.cpp build artifacts
+llama.cpp/build/
+llama.cpp/build/*
+llama.cpp/*.bin
+llama.cpp/*.gguf
+llama.cpp/models/
+llama.cpp/models/*
+llama.cpp/.cache/

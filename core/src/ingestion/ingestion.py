@@ -1,4 +1,4 @@
-from src.ingestion.loader import load_documents_unstructured
+from ingestion.loader.ISO_loader import load_documents_unstructured
 from src.ingestion.cleaner import clean_documents
 from src.ingestion.chunker import chunk_large_sections
 from src.ingestion.index import create_vectorstore
