@@ -13,9 +13,9 @@ llm
  use llama.cpp uses transformer but no transformer liberary which is causing our model to be slow 
 streamlit
 general loader - iso loader 
+ api key : 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
 
-
-bugs:
+bugs: 
 
 
 This is fragile because:

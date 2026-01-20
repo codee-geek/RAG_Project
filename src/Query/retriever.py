@@ -9,13 +9,13 @@ embeddings = HuggingFaceEmbeddings(
     encode_kwargs={"normalize_embeddings": True}
 )
 
-vectorstore = FAISS.load_local(
+def run_query(user_query: str, k: int = 30):
+    
+    vectorstore = FAISS.load_local(
     VECTOR_DB_PATH,
     embeddings,
     allow_dangerous_deserialization=True
 )
-
-def run_query(user_query: str, k: int = 30):
     results = vectorstore.similarity_search_with_score(user_query, k=k)
 
     docs = []

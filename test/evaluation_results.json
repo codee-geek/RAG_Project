@@ -1,0 +1,49 @@
+{
+  "summary": {
+    "answer_accuracy": 0.0,
+    "retrieval_recall": 0.0,
+    "grounded_accuracy": 0.0
+  },
+  "results": [
+    {
+      "qid": "LUM-001",
+      "answer": {
+        "value": "Failed to parse model output.",
+        "type": "string"
+      },
+      "citations": []
+    },
+    {
+      "qid": "LUM-002",
+      "answer": {
+        "value": "Failed to parse model output.",
+        "type": "string"
+      },
+      "citations": []
+    },
+    {
+      "qid": "LUM-003",
+      "answer": {
+        "value": "Failed to parse model output.",
+        "type": "string"
+      },
+      "citations": []
+    },
+    {
+      "qid": "LUM-004",
+      "answer": {
+        "value": "Failed to parse model output.",
+        "type": "string"
+      },
+      "citations": []
+    },
+    {
+      "qid": "LUM-005",
+      "answer": {
+        "value": "Failed to parse model output.",
+        "type": "string"
+      },
+      "citations": []
+    }
+  ]
+}

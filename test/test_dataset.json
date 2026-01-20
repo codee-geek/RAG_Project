@@ -1,0 +1,59 @@
+{
+  "questions": [
+    {
+      "qid": "LUM-001",
+      "question": "What is the name of the city that shifts?",
+      "answer_type": "string",
+      "expected_answer": {
+        "value": "Lumenfall"
+      },
+      "citation_spans": [
+        "The city of Lumenfall did not stay still."
+      ]
+    },
+    {
+      "qid": "LUM-002",
+      "question": "At what time does the Noon Shift occur?",
+      "answer_type": "string",
+      "expected_answer": {
+        "value": "12:00 noon"
+      },
+      "citation_spans": [
+        "Every day at exactly 12:00 noon, the city changed its layout."
+      ]
+    },
+    {
+      "qid": "LUM-003",
+      "question": "What is the duration of the Noon Shift?",
+      "answer_type": "string",
+      "expected_answer": {
+        "value": "approximately 8 seconds"
+      },
+      "citation_spans": [
+        "Duration: approximately 8 seconds"
+      ]
+    },
+    {
+      "qid": "LUM-004",
+      "question": "What fixed object never moves in the city?",
+      "answer_type": "string",
+      "expected_answer": {
+        "value": "Oblique Tower"
+      },
+      "citation_spans": [
+        "At the center of Lumenfall stood the Oblique Tower. The tower never moved."
+      ]
+    },
+    {
+      "qid": "LUM-005",
+      "question": "What is the name of the Cartographer who broke the rule?",
+      "answer_type": "string",
+      "expected_answer": {
+        "value": "Iria Tal"
+      },
+      "citation_spans": [
+        "Her name was Iria Tal."
+      ]
+    }
+  ]
+}

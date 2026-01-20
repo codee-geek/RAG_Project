@@ -72,7 +72,9 @@ python3 -m src.Query.user_input
 
 streamlit app: streamlit run ui/streamlit_app.py
 
-sample query: What shall organization do when nonconformity occurs? 
+sample query: 
+What shall organization do when nonconformity occurs? 
+what shall organisation determine while understanding needs and expectations of interested parties?
 
 --------------------------------------------------
 DEPENDENCY MANAGEMENT

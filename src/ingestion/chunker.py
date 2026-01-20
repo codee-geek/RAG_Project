@@ -13,7 +13,7 @@ def chunk_large_sections(docs: List[Document], max_size: int = 2000) -> List[Doc
     """
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1200,  # Larger than your 800
-        chunk_overlap=120,
+        chunk_overlap=300,
         separators=["\n\n", "\n", ". ", " ", ""],
         length_function=len,
     )

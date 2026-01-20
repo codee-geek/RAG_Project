@@ -1,4 +1,4 @@
-from llm.phi3 import generate_phi3, load_llm
+from llm.openai import generate_phi3, load_llm
 from query.retriever import run_query
 
 # =========================
@@ -32,18 +32,21 @@ def build_context(docs, max_chars: int = 3000) -> str:
 def build_prompt(query: str, context: str) -> str:
     return f"""You are an expert assistant.
 
+Follow this decision process strictly:
+1. Check whether the context contains information relevant to the question.
+2. If relevant information exists:
+   - Answer using only that information.
+   - If the question is broad, summarize the document purpose and scope.
+   - Cite clause numbers when present (e.g., Clauses 4–10).
+3. If no relevant information exists at all:
+   - Respond exactly with: "Not specified in the document."
+
 Rules:
-- Answer ONLY from the provided context.
-- Answer ONLY the Question asked.
-- Do NOT explain related concepts.
-- Do NOT answer implied or follow-up questions.
-- Do NOT generate new questions.
-- Use ONLY the given context.
+- Use ONLY the provided context.
+- Answer ONLY the question asked.
 - Do NOT add external knowledge.
-- If the answer is not present, say exactly: "Not specified in the document."
 - Be concise, precise, and technical.
 - Start directly with the answer.
-- Use a numbered list only if actions are requested.
 
 Context:
 {context}
@@ -53,6 +56,7 @@ Question:
 
 Answer:
 """
+
 
 
 # =========================

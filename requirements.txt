@@ -8,6 +8,10 @@ docutils==0.22.4
 filelock==3.20.1
 h2==4.3.0
 HTMLParser==0.0.2
+openai>=1.0.0
+langchain>=0.1.0
+langchain-openai>=0.0.6
+tiktoken
 ipython==9.8.0
 ipywidgets==8.1.8
 jnius==1.1.0

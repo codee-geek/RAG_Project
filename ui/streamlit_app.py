@@ -4,36 +4,35 @@ import os
 import sys
 
 # -------------------------------------------------
-# TEMPORARY PATH FIX (acceptable for Streamlit)
+# TEMPORARY PATH FIX
 # -------------------------------------------------
 sys.path.insert(0, "src")
 
 # -------------------------------------------------
-# PROJECT IMPORTS (single source of truth)
+# PROJECT IMPORTS
 # -------------------------------------------------
 from ingestion.ingestion_pipeline import run_ingestion
 from llm.llm_answer import answer_query
 from core.constants import DocumentType
 from core.exception import RAGError
+from utils.small_talk import is_small_talk, small_talk_response
 
 # -------------------------------------------------
 # PAGE CONFIG
 # -------------------------------------------------
 st.set_page_config(
-    page_title="RAG System",
+    page_title="RAG Chatbot",
     layout="centered"
 )
 
-st.title("📄 Retrieval-Augmented Generation")
+st.title("📄 Retrieval-Augmented Generation Chatbot")
 
 # -------------------------------------------------
 # SESSION STATE
 # -------------------------------------------------
-if "ingested" not in st.session_state:
-    st.session_state.ingested = False
-
-if "upload_dir" not in st.session_state:
-    st.session_state.upload_dir = None
+st.session_state.setdefault("ingested", False)
+st.session_state.setdefault("upload_dir", None)
+st.session_state.setdefault("messages", [])
 
 # -------------------------------------------------
 # DOCUMENT UPLOAD
@@ -41,14 +40,11 @@ if "upload_dir" not in st.session_state:
 st.header("1. Upload Documents")
 
 uploaded_files = st.file_uploader(
-    label="Upload documents (PDF / TXT / DOCX)",
-    accept_multiple_files=True,
-    type=["pdf", "txt", "docx"]
+    "Upload documents (PDF / TXT / DOCX)",
+    type=["pdf", "txt", "docx"],
+    accept_multiple_files=True
 )
 
-# -------------------------------------------------
-# DOCUMENT TYPE SELECTION (EXPLICIT USER INTENT)
-# -------------------------------------------------
 doc_type = st.selectbox(
     "Select document type",
     options=[
@@ -59,61 +55,93 @@ doc_type = st.selectbox(
     format_func=lambda x: x.value.replace("_", " ").title()
 )
 
-# -------------------------------------------------
-# INGESTION ACTION (ONE AND ONLY ONE)
-# -------------------------------------------------
 if uploaded_files and st.button("Run Ingestion"):
     with st.spinner("Ingesting documents..."):
         try:
             tmp_dir = tempfile.mkdtemp()
 
             for file in uploaded_files:
-                file_path = os.path.join(tmp_dir, file.name)
-                with open(file_path, "wb") as f:
+                with open(os.path.join(tmp_dir, file.name), "wb") as f:
                     f.write(file.getbuffer())
 
-            run_ingestion(
-                upload_dir=tmp_dir,
-                document_type=doc_type
-            )
+            run_ingestion(upload_dir=tmp_dir, document_type=doc_type)
 
             st.session_state.ingested = True
             st.session_state.upload_dir = tmp_dir
+            st.session_state.messages = []  # reset chat on new ingestion
 
             st.success("Ingestion completed successfully.")
 
-        except RAGError as e:
-            st.error(f"Ingestion failed: {e}")
         except Exception as e:
-            st.error(f"Unexpected error: {e}")
+            st.error(str(e))
 
 # -------------------------------------------------
-# QUERY INTERFACE
+# CHAT INTERFACE
 # -------------------------------------------------
 if st.session_state.ingested:
     st.divider()
-    st.header("2. Ask a Question")
+    st.header("2. Chat with Documents")
 
-    query = st.text_input("Enter your question")
+    # ---- Render chat history ----
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
 
-    if query and st.button("Get Answer"):
-        with st.spinner("Generating answer..."):
-            try:
-                result = answer_query(query)
+            if msg["role"] == "assistant" and msg.get("chunks"):
+                with st.expander("📎 Sources"):
+                    for i, doc in enumerate(msg["chunks"], start=1):
+                        meta = doc.metadata or {}
 
-                # assuming answer_query returns structured output
-                answer = (
-                    result["answer"]
-                    if isinstance(result, dict) and "answer" in result
-                    else result
-                )
+                        st.markdown(f"**Chunk {i}**")
+                        st.markdown(doc.page_content)
 
-                st.subheader("Answer")
-                st.write(answer)
+                        st.caption(
+                            f"📄 {meta.get('file_name', 'N/A')} | "
+                            f"📑 Pages {meta.get('pages', 'N/A')} | "
+                            f"🔁 Rerank {round(meta.get('rerank_score', 0), 2)}"
+                        )
+                        st.markdown("---")
 
-            except RAGError as e:
-                st.error(f"Query failed: {e}")
-            except Exception as e:
-                st.error(f"Unexpected error: {e}")
+    # ---- Chat input ----
+    user_query = st.chat_input("Ask a question")
+
+    if user_query:
+        with st.chat_message("user"):
+            st.markdown(user_query)
+
+    # 2️⃣ Save for history
+        st.session_state.messages.append({
+        "role": "user",
+        "content": user_query
+        })
+
+
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                try:
+                    # 🔹 INTENT ROUTING
+                    if is_small_talk(user_query):
+                        answer = small_talk_response(user_query)
+                        chunks = None
+                    else:
+                        result = answer_query(user_query)
+                        answer = result.get("answer", "")
+                        chunks = result.get("chunks", [])
+
+                    st.markdown(answer)
+
+                    st.session_state.messages.append({
+                        "role": "assistant",
+                        "content": answer,
+                        "chunks": chunks
+                    })
+
+                except RAGError as e:
+                    st.error(f"Query failed: {e}")
+                except Exception as e:
+                    st.error(f"Unexpected error: {e}")
+
+
+
 else:
-    st.info("Upload and ingest documents to enable querying.")
+    st.info("Upload and ingest documents to enable chatting.")
